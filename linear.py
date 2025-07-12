@@ -1,12 +1,14 @@
 from pandas import read_csv
 import time 
+import matplotlib.pyplot as plt
 
 def linear_regretion():
     df = read_csv('data.csv')
     mu_x = df['km'].mean()
     sigma_x = df['km'].std()
     mu_y = df['price'].mean()
-    sigma_y = df['price'].std()
+    sigma_y = df['price'].std() 
+    plt.scatter(df['km'], df['price'])
     df['km'] = (df['km'] - df['km'].mean()) / df['km'].std()
     df['price'] = (df['price'] - df['price'].mean()) / df['price'].std()
     a = 0
@@ -27,4 +29,8 @@ def linear_regretion():
         print(a,b)
     print(a * sigma_y / sigma_x, b * sigma_y + mu_y - a * sigma_y / sigma_x  * mu_x)
     print(df.apply(to_minimize, axis=1))
+    aa = a * sigma_y / sigma_x
+    bb = b * sigma_y + mu_y - a * sigma_y / sigma_x * mu_x
+    plt.plot([0, 250000], [aa*0 + bb, aa*250000 + bb], 'r-', lw=2)
+    plt.show()
 linear_regretion()
