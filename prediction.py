@@ -2,11 +2,11 @@ import csv
 
 def getValues():
     try:
-        file = open("values.csv")
-        fileIterator = csv.reader(file)
-        next(fileIterator)
-        firstLine = next(fileIterator)
-        return (float(firstLine[0]), float(firstLine[1]))
+        with open("values.csv") as file:
+            fileIterator = csv.reader(file)
+            next(fileIterator)
+            firstLine = next(fileIterator)
+            return (float(firstLine[0]), float(firstLine[1]))
     except:
         print("Can't read values, setting them to base values")
         return (0,0)
