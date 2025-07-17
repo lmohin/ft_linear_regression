@@ -1,5 +1,4 @@
 from pandas import read_csv
-import time
 import csv
 import matplotlib.pyplot as plt
 
