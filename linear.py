@@ -1,5 +1,6 @@
 from pandas import read_csv
-import time 
+import time
+import csv
 import matplotlib.pyplot as plt
 
 def linear_regretion():
@@ -31,6 +32,12 @@ def linear_regretion():
     print(df.apply(to_minimize, axis=1))
     aa = a * sigma_y / sigma_x
     bb = b * sigma_y + mu_y - a * sigma_y / sigma_x * mu_x
+    aas = str(aa)
+    bbs = str(bb)
+    with open("values.csv", "w", newline='') as valuesFile:
+        writer = csv.writer(valuesFile)
+        writer.writerow(['a', 'b'])
+        writer.writerow([aas, bbs])
     plt.plot([0, 250000], [aa*0 + bb, aa*250000 + bb], 'r-', lw=2)
     plt.show()
 linear_regretion()
