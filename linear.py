@@ -28,6 +28,12 @@ def standardizeValues(df, a, b):
     newB = (b - muY) / sigmaY + newA / sigmaX * muX
     return (newA, newB)
 
+def writeResults(a, b):
+    with open("values.csv", "w", newline='') as valuesFile:
+        writer = csv.writer(valuesFile)
+        writer.writerow(['a', 'b'])
+        writer.writerow([a, b])
+
 def linear_regretion():
     df = read_csv('data.csv')
     standardDf = standardizeDatas(df)
@@ -46,10 +52,7 @@ def linear_regretion():
         a -= nextA
         b -= nextB
     realA, realB = getRealValues(df, a, b)
-    with open("values.csv", "w", newline='') as valuesFile:
-        writer = csv.writer(valuesFile)
-        writer.writerow(['a', 'b'])
-        writer.writerow([realA, realB])
+    writeResults(realA, realB)
     plt.plot([0, 250000], [realA*0 + realB, realA*250000 + realB], 'r-', lw=2)
     plt.show()
 
