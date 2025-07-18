@@ -29,10 +29,13 @@ def standardizeValues(df, a, b):
     return (newA, newB)
 
 def writeResults(a, b):
-    with open("values.csv", "w", newline='') as valuesFile:
-        writer = csv.writer(valuesFile)
-        writer.writerow(['a', 'b'])
-        writer.writerow([a, b])
+    try:
+        with open("values.csv", "w", newline='') as valuesFile:
+            writer = csv.writer(valuesFile)
+            writer.writerow(['a', 'b'])
+            writer.writerow([a, b])
+    except:
+        print("Error: can not write results on values.csv")
 
 def linear_regretion():
     df = read_csv('data.csv')
