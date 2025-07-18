@@ -7,7 +7,11 @@ def calculate_precision():
     a,b = getValues()
     def squared_diff(row):
         return ((row['km'] * a + b - row['price']) ** 2)
-    df = read_csv('data.csv')
+    try:
+        df = read_csv('data.csv')
+    except:
+        print("Error: can not read data.csv")
+        return
     print(df.apply(squared_diff, axis=1).sum() / 2)
     print(a,b)
 

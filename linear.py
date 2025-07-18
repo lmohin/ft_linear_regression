@@ -38,7 +38,11 @@ def writeResults(a, b):
         print("Error: can not write results on values.csv")
 
 def linear_regretion():
-    df = read_csv('data.csv')
+    try:
+        df = read_csv('data.csv')
+    except:
+        print("Error: can not read data.csv")
+        return
     standardDf = standardizeDatas(df)
     plt.scatter(df['km'], df['price'])
     a,b = getValues()
