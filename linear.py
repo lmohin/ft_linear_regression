@@ -9,31 +9,33 @@ def standardizeDatas(df):
     )
     return newDf
 
+def getRealValues(df, a, b):
+    muX = df['km'].mean()
+    sigmaX = df['km'].std()
+    muY = df['price'].mean()
+    sigmaY = df['price'].std()
+    realA = a * sigmaY / sigmaX
+    realB = b * sigmaY + muY - a * sigmaY / sigmaX * muX
+    return (realA, realB)
 
 def linear_regretion():
     df = read_csv('data.csv')
     standardDf = standardizeDatas(df)
-    print(standardDf)
-    mu_x = df['km'].mean()
-    sigma_x = df['km'].std()
-    mu_y = df['price'].mean()
-    sigma_y = df['price'].std() 
     plt.scatter(df['km'], df['price'])
     a = 0
     b = 0
-    for i in range(10000):
-        def a_min(row):
+    for i in range(1000):
+        def aDescent(row):
             return ((row['km'] * a + b - row['price']) * row['km'])
-        def b_min(row):
+        def bDescent(row):
             return ((row['km'] * a + b - row['price']))
-        tmp_a = standardDf.apply(a_min, axis=1).sum()
-        tmp_a = (tmp_a / df.shape[0]) * 0.01
-        tmp_b = standardDf.apply(b_min, axis=1).sum()
-        tmp_b = (tmp_b / df.shape[0]) * 0.01
-        a -= tmp_a
-        b -= tmp_b
-    realA = a * sigma_y / sigma_x
-    realB = b * sigma_y + mu_y - a * sigma_y / sigma_x * mu_x
+        nextA = standardDf.apply(aDescent, axis=1).sum()
+        nextA = (nextA / df.shape[0]) * 0.01
+        nextB = standardDf.apply(bDescent, axis=1).sum()
+        nextB = (nextB / df.shape[0]) * 0.01
+        a -= nextA
+        b -= nextB
+    realA, realB = getRealValues(df, a, b)
     with open("values.csv", "w", newline='') as valuesFile:
         writer = csv.writer(valuesFile)
         writer.writerow(['a', 'b'])
