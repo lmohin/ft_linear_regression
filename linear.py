@@ -3,6 +3,9 @@ from prediction import getValues
 import csv
 
 def standardizeDatas(df):
+    """Standardize datas of a dataframe
+
+    Dataframe must have two columns : 'km' and 'price'"""
     newDf = df.assign(
         km = (df['km'] - df['km'].mean()) / df['km'].std(),
         price = (df['price'] - df['price'].mean()) / df['price'].std()
@@ -10,6 +13,7 @@ def standardizeDatas(df):
     return newDf
 
 def getRealValues(df, a, b):
+    """"Converts a and b so their value matches the non standardized datas"""
     muX = df['km'].mean()
     sigmaX = df['km'].std()
     muY = df['price'].mean()
@@ -19,6 +23,7 @@ def getRealValues(df, a, b):
     return (realA, realB)
 
 def standardizeValues(df, a, b):
+    """Converts a and b so their value matches the standardized datas"""
     muX = df['km'].mean()
     sigmaX = df['km'].std()
     muY = df['price'].mean()
@@ -28,6 +33,7 @@ def standardizeValues(df, a, b):
     return (newA, newB)
 
 def writeResults(a, b):
+    """Stores a and b on 'values.csv'"""
     try:
         with open("values.csv", "w", newline='') as valuesFile:
             writer = csv.writer(valuesFile)
@@ -37,7 +43,8 @@ def writeResults(a, b):
     except:
         print("Error: can not write results on \"values.csv\"")
 
-def linear_regretion():
+def linear_regretion(iterations, delta):
+    """Using a gradient descent algorithm, find a linear relationship between the datas stored in 'data.csv'"""
     try:
         df = read_csv('data.csv')
     except:
@@ -46,20 +53,20 @@ def linear_regretion():
     standardDf = standardizeDatas(df)
     a,b = getValues()
     a,b = standardizeValues(df, a, b)
-    for i in range(10000):
+    for i in range (iterations):
         def aDescent(row):
             return ((row['km'] * a + b - row['price']) * row['km'])
         def bDescent(row):
             return ((row['km'] * a + b - row['price']))
         nextA = standardDf.apply(aDescent, axis=1).sum()
-        nextA = (nextA / df.shape[0]) * 0.01
+        nextA = (nextA / df.shape[0]) * delta
         nextB = standardDf.apply(bDescent, axis=1).sum()
-        nextB = (nextB / df.shape[0]) * 0.01
+        nextB = (nextB / df.shape[0]) * delta
         a -= nextA
         b -= nextB
     realA, realB = getRealValues(df, a, b)
-    print(f"Linear regression successfuly completed!\nLinear relationship found: y = {a}x + {b}")
+    print(f"Linear regression successfully completed!\nLinear relationship found: y = {realA}x + {realB}")
     writeResults(realA, realB)
 
 if __name__ == '__main__':    
-    linear_regretion()
+    linear_regretion(100, 1)
