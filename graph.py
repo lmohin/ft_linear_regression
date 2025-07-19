@@ -1,6 +1,5 @@
 from pandas import read_csv
 from prediction import getValues
-import csv
 import matplotlib.pyplot as plt
 
 def affDatas():
