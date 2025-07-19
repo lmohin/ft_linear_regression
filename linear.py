@@ -44,7 +44,9 @@ def writeResults(a, b):
         print("Error: can not write results on \"values.csv\"")
 
 def linear_regretion(iterations, delta):
-    """Using a gradient descent algorithm, find a linear relationship between the datas stored in 'data.csv'"""
+    """Using a gradient descent algorithm, find a linear relationship between the datas stored in 'data.csv'
+
+    iterations design the number of loop required, and delta the learning rate of the algorithm"""
     try:
         df = read_csv('data.csv')
     except:
