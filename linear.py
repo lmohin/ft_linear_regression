@@ -1,7 +1,6 @@
 from pandas import read_csv
 from prediction import getValues
 import csv
-import matplotlib.pyplot as plt
 
 def standardizeDatas(df):
     newDf = df.assign(
@@ -44,7 +43,6 @@ def linear_regretion():
         print("Error: can not read data.csv")
         return
     standardDf = standardizeDatas(df)
-    plt.scatter(df['km'], df['price'])
     a,b = getValues()
     a,b = standardizeValues(df, a, b)
     for i in range(10000):
@@ -60,8 +58,6 @@ def linear_regretion():
         b -= nextB
     realA, realB = getRealValues(df, a, b)
     writeResults(realA, realB)
-    plt.plot([0, 250000], [realA*0 + realB, realA*250000 + realB], 'r-', lw=2)
-    plt.show()
 
 if __name__ == '__main__':    
     linear_regretion()
