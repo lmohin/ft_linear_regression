@@ -33,14 +33,15 @@ def writeResults(a, b):
             writer = csv.writer(valuesFile)
             writer.writerow(['a', 'b'])
             writer.writerow([a, b])
+            print("Results stored in \"values.csv\"")
     except:
-        print("Error: can not write results on values.csv")
+        print("Error: can not write results on \"values.csv\"")
 
 def linear_regretion():
     try:
         df = read_csv('data.csv')
     except:
-        print("Error: can not read data.csv")
+        print("Error: can not read \"data.csv\"")
         return
     standardDf = standardizeDatas(df)
     a,b = getValues()
@@ -57,6 +58,7 @@ def linear_regretion():
         a -= nextA
         b -= nextB
     realA, realB = getRealValues(df, a, b)
+    print(f"Linear regression successfuly completed!\nLinear relationship found: y = {a}x + {b}")
     writeResults(realA, realB)
 
 if __name__ == '__main__':    

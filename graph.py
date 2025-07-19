@@ -3,6 +3,7 @@ from prediction import getValues
 import matplotlib.pyplot as plt
 
 def affDatas():
+    """ plot datas from data.csv, and draw the linear line based on the results stored in values.csv"""
     try:
         df = read_csv('data.csv')
     except:
