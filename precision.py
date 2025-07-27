@@ -22,7 +22,7 @@ def calculatePrecision():
     residualsSum = df.apply(squaredDiff, axis=1).sum()
     meanDiffSum = calculateMeanDiffSum(df)
     r2 = 1 - residualsSum / meanDiffSum
-    print(f"The dertemination coefficient r2 of this modele is {r2}")
+    print(f"The determination coefficient r2 of this modele is {r2}")
 
 if __name__ == "__main__":
     calculatePrecision()
